@@ -1,0 +1,99 @@
+<h1>Suma wydatków</h1>
+<tr>
+
+<td><b>Suma: {{ getSum('newInput') | currency : symbol:''}} zł</b></td>
+</tr>
+
+<tr>
+<td><b>Suma za myjnie: {{ getSumByCategory('Myjnia') | currency : symbol:''}} zł</b></td><br>
+</tr>
+<tr>
+<td><b>Suma za tankowanie: {{ getSumByCategory('Tankowanie') | currency : symbol:''}} zł</b></td><br>
+</tr>
+<tr>
+<td><b>Suma za serwis: {{ getSumByCategory('Serwis') | currency : symbol:''}} zł</b></td><br>
+</tr>
+<tr>
+<td><b>Suma za inne: {{ getSumByCategory('Inne') | currency : symbol:''}} zł</b></td><br>
+</tr>
+<tr>
+<td>
+<button class="btn btn" style="background:blue; color:white;" (click)="showFull()">Pełne statystyki</button> &nbsp;
+<button class="btn btn" style="background:blue; color:white" (click)="showCurrentMonth()">Z danego miesiąca</button>
+</td>
+</tr>
+<br/><br/>
+<script>
+
+</script>
+<div style="display:none" id="CurrentMonth">
+<table style="width:100%;">
+ <tr>
+        <th>Kategoria</th>
+        <th>Data</th>
+        <th>Kwota</th>
+        <th>Opis</th>
+        <th>l/km</th>
+        <th></th>
+    </tr>
+    <tr *ngFor="let wydatek of wydatki2">
+    <td>{{wydatek.kategoria}} </td> 
+<td>{{wydatek.data | date:'dd.MM.yyyy'}} </td> 
+<td class="text-sm-right">{{wydatek.kwota | number:'1.2-2'}} zł </td> 
+<td>{{wydatek.opis}} </td> 
+<td>
+  <span *ngIf="wydatek.kategoria =='Tankowanie'">
+    <span *ngIf="wydatek.ileLitrow && wydatek.ileKm">
+      {{wydatek.ileLitrow | number: '1.1'}} {{'l/'}} {{
+        wydatek.ileKm }} {{'km'}}
+        </span>
+    <span *ngIf="!wydatek.ileLitrow && wydatek.ileKm">
+      {{wydatek.ileKm}} {{'km'}}
+        </span>
+    <span *ngIf="wydatek.ileLitrow && !wydatek.ileKm">
+      {{wydatek.ileLitrow | number: '1.1'}} {{'l'}}
+    </span>
+  </span>
+</td> 
+<td>
+    <button class="btn btn-danger" (click)="usunWydatek(wydatek.id)">Usuń</button>
+</td> 
+</tr>
+</table>
+</div>
+<div id="Full">
+<table style="width:100%;">
+ <tr>
+        <th>Kategoria</th>
+        <th>Data</th>
+        <th>Kwota</th>
+        <th>Opis</th>
+        <th>l/km</th>
+        <th></th>
+    </tr>
+    <tr *ngFor="let wydatek of wydatki">
+    <td>{{wydatek.kategoria}} </td> 
+<td>{{wydatek.data | date:'dd.MM.yyyy'}} </td> 
+<td class="text-sm-right">{{wydatek.kwota | number:'1.2-2'}} zł </td> 
+<td>{{wydatek.opis}} </td> 
+<td>
+  <span *ngIf="wydatek.kategoria =='Tankowanie'">
+    <span *ngIf="wydatek.ileLitrow && wydatek.ileKm">
+      {{wydatek.ileLitrow | number: '1.1'}} {{'l/'}} {{
+        wydatek.ileKm }} {{'km'}}
+        </span>
+    <span *ngIf="!wydatek.ileLitrow && wydatek.ileKm">
+      {{wydatek.ileKm}} {{'km'}}
+        </span>
+    <span *ngIf="wydatek.ileLitrow && !wydatek.ileKm">
+      {{wydatek.ileLitrow | number: '1.1'}} {{'l'}}
+    </span>
+  </span>
+</td> 
+<td>
+    <button class="btn btn-danger" (click)="usunWydatek(wydatek.id)">Usuń</button>
+</td> 
+</tr>
+</table>
+</div>
+<br/><br/>
